@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using OpenQA.Selenium.Chrome; // Импортируем Chrome драйвер
+using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using System;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
@@ -16,6 +16,31 @@ namespace SeleniumCsharp
         IWebDriver driver;
         String test_url = "https://arinanikulina22.thkit.ee/untitled/kodutoo.html";
         private readonly Random _random = new Random();
+
+        [SetUp]
+        public void SetUp()
+        {
+
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("no-sandbox"); // Если вы используете Linux, это может помочь избежать ошибок.
+            options.BinaryLocation = "C:\\Users\\ariha\\Downloads\\chromedriver_win32\\chromedriver.exe"; // Укажите путь к исполняемому файлу Chrome (если он не в системной переменной PATH).
+
+
+            // Установите путь к ChromeDriver здесь
+            string chromeDriverPath = "C:\\Users\\ariha\\Downloads\\chromedriver_win32\\chromedriver.exe";
+            ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService(chromeDriverPath);
+            chromeDriverService.HideCommandPromptWindow = true;
+
+            ChromeOptions options1 = new ChromeOptions();
+            options.AddArgument("start-maximized"); // Максимизировать окно браузера при запуске
+
+            driver = new ChromeDriver(chromeDriverService, options);
+
+            // Инициализируйте ChromeDriver с опциями
+            driver = new ChromeDriver(chromeDriverPath, options);
+            driver = new ChromeDriver();
+        }
+
 
         [SetUp]
         public void TestSurvey()
